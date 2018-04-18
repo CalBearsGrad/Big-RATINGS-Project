@@ -23,26 +23,24 @@ class User(db.Model):
     age = db.Column(db.Integer, nullable=True)
     zipcode = db.Column(db.String(15), nullable=True)
 
+    def __repr__(self):
+        """Provide helpful representation when printed
+        """
+
+        return "<User user_id={} email={}>".format(self.user_id, self.email)
+
 
 # Put your Movie and Rating model classes here.
 
 class Movie(db.Model):
     """A movie; stored in a database."""
 
-    __tablename__ = "movie"
-
-    # def __init__(self, movie_id, title, released_at, imdb_url):
-    #     """Create a movie, given movie_id, title, and released_at and imdb_url."""
-
-        # self.movie_id = movie_id
-        # self.title = title
-        # self.released_at = released_at
-        # self.imdb_url = imdb_url
+    __tablename__ = "movies"
 
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    title = db.Column(db.String, nullable=False)
+    title = db.Column(db.String(500), nullable=False)
     released_at = db.Column(db.DateTime, nullable=False)
-    imdb_url = db.Column(db.String, nullable=True)
+    imdb_url = db.Column(db.String(500), nullable=True)
 
     @classmethod
     def get_by_movie_id(cls, movie_id):
@@ -59,14 +57,6 @@ class Rating(db.Model):
     """A rating of a movie; stored in a database."""
 
     __tablename__ = "ratings"
-
-    # def __init__(self, rating_id, movie_id, user_id, score):
-    #     """Create a rating, rating_id, movie_id, user_id and score."""
-
-    #     self.rating = rating_id
-    #     self.movie_id = movie_id
-    #     self.user_id = user_id
-    #     self.score = score
 
     rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     movie_id = db.Column(db.Integer, nullable=False)
