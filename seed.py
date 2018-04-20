@@ -2,13 +2,12 @@
 
 from sqlalchemy import func
 from model import User
-# from model import Rating
-# from model import Movie
+from model import Rating
+from model import Movie
 
 from model import connect_to_db, db
 from server import app
 from dateutil import parser
-
 
 
 def load_users():
@@ -41,14 +40,28 @@ def load_movies():
 
     print "Movies"
 
-    Movies.query.delete()
+    Movie.query.delete()
 
-    for row in open("seed_data/u.item")
+    for row in open("seed_data/u.item"):
+        # print 1
         row = row.rstrip()
+        row = row.split("|")
+        # print "row: ", row
+        # print 2
         """movie_id, title, released_at, imdb_url"""
-        movie_id, title, released_at, imdb_url = row.split("|")
+        movie_id = row[0]
+        # print "movie_id: ", movie_id
+        title = row[1]
+        # print "title: ", title
+        released_at = row[2]
+        # print "released_at: ", released_at
+        imdb_url = row[4]
+        # print "imdb_url: ", imdb_url
+
         released_at = parser.parse(released_at)
+        # print "new released_at: ", released_at
         title = title[:-7]
+        # print "new title: ", title
 
         movie = Movie(movie_id=movie_id,
                       title=title,
@@ -56,6 +69,7 @@ def load_movies():
                       imdb_url=imdb_url)
 
         db.session.add(movie)
+
 
     db.session.commit()
 
@@ -65,15 +79,15 @@ def load_ratings():
 
     print "Ratings"
 
-    Ratings.query.delete()
+    Rating.query.delete()
 
     for row in open("seed_data/u.data"):
+        print "This is row", row
         row = row.rstrip()
-        """rating_id, movie_id, user_id, score"""
-        rating_id, movie_id, user_id, score = row.split("|")
+        user_id, movie_id, score, timestamp = row.split("\t")
+        print "row after split", row
 
-        rating = Rating(rating_id=rating_id,
-                        movie_id=movie_id,
+        rating = Rating(movie_id=movie_id,
                         user_id=user_id,
                         score=score)
 

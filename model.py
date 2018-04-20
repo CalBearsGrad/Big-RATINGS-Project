@@ -52,6 +52,12 @@ class Movie(db.Model):
         movie_id, title, released_at, imdb_url = cursor.fetchone()
         return cls(movie_id, title, released_at, imdb_url)
 
+    def __repr__(self):
+        """Provide helpful representation when printed
+        """
+
+        return "<User movie_id={} title={} released_at={} imdb_url={}>".format(self.movie_id, self.title, self.released_at, self.imdb_url)
+
 
 class Rating(db.Model):
     """A rating of a movie; stored in a database."""
@@ -72,6 +78,12 @@ class Rating(db.Model):
         cursor = db.session.execute(QUERY, {'rating_id': rating_id})
         rating_id, movie_id, user_id, score = cursor.fetchone()
         return cls(rating_id, movie_id, user_id, score)
+
+    def __repr__(self):
+        """Provide helpful representation when printed
+        """
+
+        return "<rating_id={} movie_id={} user_id={} score={}>".format(self.rating_id, self.movie_id, self.user_id, self.score)
 
 ##############################################################################
 # Helper functions
