@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Register as a user! </h1>
+
+<h2>Registration Form</h2>
+    <h3>Provide an age and zipcde.</h3>
+
+<form method="POST">
+    <p>Your email address is: {{ email }}</p>
+    <p>Your password is: ******** </p>
+    <p>How old are you in years?</p>
+        <textarea value="age">Age</textarea>
+        <p>What is your zipcode?</p>
+        <textarea value="zipcode">Zipcode</textarea>
+    <button type="submit">Submit!</button>
+</form>
+
+<script type="text/javascript">
+
+function checkIfNum(age) {
+    let numericExression = /^[0-9]+$/;
+    if (age.value.match(numericExression)) {
+        return true;
+    } else {
+        alert("You must enter a whole number for age and zipcode.");
+    }
+}
+
+checkIfNum(age);
+
+function checkZipcodeLength(zipcode) {
+    if (zipcode.length == 5 && zipcode.value.match(numericExression) {
+        return true;
+    } else {
+        alert("Your zipcode must be five digits long.")
+    }
+
+checkZipcodeLength(zipcode);
+
+</script>
+
+{% endblock %}
