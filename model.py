@@ -65,9 +65,16 @@ class Rating(db.Model):
     __tablename__ = "ratings"
 
     rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    movie_id = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.movie_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     score = db.Column(db.Integer, nullable=False)
+
+    #Define relationship to user
+    user = db.relationship("User",
+                           backref=db.backref("ratings", order_by=rating_id))
+
+    #Define relationship to movie
+    movie = db.relationship("Movie", backref=db.backref("ratings", order_by=rating_id))
 
     @classmethod
     def get_by_rating_id(cls, rating_id):
@@ -83,7 +90,7 @@ class Rating(db.Model):
         """Provide helpful representation when printed
         """
 
-        return "<rating_id={} movie_id={} user_id={} score={}>".format(self.rating_id, self.movie_id, self.user_id, self.score)
+        s = "<rating_id={} movie_id={} user_id={} score={}>".format(self.rating_id, self.movie_id, self.user_id, self.score)
 
 ##############################################################################
 # Helper functions
