@@ -9,14 +9,14 @@
 <h2>Users</h2>
 <p><a href="/users">View all users</a></p>
 
-<h2>Registration Form</h2>
+<h2>Sign in or Sign Up</h2>
     <h3>Provide an email address and password.</h3>
 
-<form action=submit method="POST">
+<form action="/check-user" method="POST">
     <p>What is your email address?</p>
-        <textarea value="email"></textarea>
+        <textarea name="email"></textarea>
         <p>What is your password?</p>
-        <input type="password" value="password"></input>
+        <input type="password" name="password"></input>
     <button type"submit">Submit!</button>
 </form>
 
