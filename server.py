@@ -24,7 +24,7 @@ app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def index():
-    """Homepage."""
+    """Homepage and registration form."""
 
     return render_template("homepage.html")
 
@@ -37,12 +37,16 @@ def user_list():
 
     return render_template("user_list.html", users=users)
 
-@app.route('/check-user', methods=["GET"])
-def check_user(email):
+
+@app.route('/check-user', methods=["POST", "GET"])
+def check_user():
     """allow a new user to register email address and password
     """
     email = request.form.get("email")
     password = request.form.get("password")
+
+    session['email'] = email
+    session['password'] = password
 
     print email
     print password
@@ -52,42 +56,61 @@ def check_user(email):
                                email=email,
                                password=password)
     else:
-        return render_template("registration.html",
+        return render_template("register.html",
                                email=email,
                                password=password)
 
 
-@app.route('/registration', methods=["POST"])
+@app.route('/register', methods=["POST"])
 def register_user():
     """allow user to register email, password, age and zipcode
     """
 
     """defining the user input that we are getting """
-    age = request.forms.get("age")
-    zipcode = request.forms.get("zipcode")
-    email = request.args.get("email")
-    password = request.args.get("password")
+    age = request.form.get("age")
+    zipcode = request.form.get("zipcode")
+    email = session["email"]
+    password = session["password"]
 
     """Instantiating a new user """
-    age = User.age
-    zipcode = User.zipcode
-    email = User.email
-    password = User.password
+    user = User(email=email, password=password, age=age, zipcode=zipcode)
+    print "I am email", email
+    print "I am password", password
+    print "I am age", age
+    print "I am zipcode", zipcode
+    db.session.add(user)
+    db.session.commit()
+    print "We created a new user!"
 
-    flash("You have registered in successfully")
+    flash("You have registered successfully")
 
     return render_template("log_in.html")
+
 
 @app.route("/log_in", methods=["POST"])
 def log_in():
     """allow user to log_in
     """
 
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    if email in session and password in session:
+
+        return render_template("homepageloggedin.html",
+                               email=email,
+                               password=password)
+    else:
+        return render_template("log_in.html")
 
 
-    return render_template("log_in.html")
+@app.route("/homepageloggedin", methods=["POST"])
+def logged_in():
+    """renders the homepage when user is logged in.
+    """
+    print "Im inside /homepageloggedin"
 
-
+    return render_template("homepageloggedin.html")
 
 
 if __name__ == "__main__":

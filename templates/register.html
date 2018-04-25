@@ -6,13 +6,13 @@
 <h2>Registration Form</h2>
     <h3>Provide an age and zipcode. We already have your email and password that you provided</h3>
 
-<form action=/homepageloggedin.html method="POST">
+<form action="/register" method="POST">
     <p>Your email address is: {{ email }}</p>
     <p>Your password is: ******** </p>
     <p>How old are you in years?</p>
-        <textarea value="age">Age</textarea>
+        <textarea name="age" value="age">Age</textarea>
         <p>What is your zipcode?</p>
-        <textarea value="zipcode">Zipcode</textarea>
+        <textarea name="zipcode" value="zipcode">Zipcode</textarea>
     <button type="submit">Submit!</button>
 </form>
 
