@@ -6,37 +6,46 @@
 <h2>Registration Form</h2>
     <h3>Provide an age and zipcode. We already have your email and password that you provided</h3>
 
-<form action="/register" method="POST">
+<form id="userAgeZip" action="/register" method="POST">
     <p>Your email address is: {{ email }}</p>
     <p>Your password is: ******** </p>
     <p>How old are you in years?</p>
-        <textarea name="age" value="age">Age</textarea>
+        <textarea id="userAge" name="age" value="age">Age</textarea>
         <p>What is your zipcode?</p>
-        <textarea name="zipcode" value="zipcode">Zipcode</textarea>
+        <textarea id="userZipcode" name="zipcode" value="zipcode">Zipcode</textarea>
     <button type="submit">Submit!</button>
 </form>
 
 <script type="text/javascript">
 
-function checkIfNum(age) {
-    let numericExression = /^[0-9]+$/;
-    if (age.value.match(numericExression)) {
+let myForm = document.querySelector('#userAgeZip');
+
+function checkSubmit(evt) {
+    console.log("Let's check submit!!")
+    checkIfNum(evt, document.querySelector('#userAge'))
+}
+
+function checkIfNum(evt, age) {
+    let numericExpression = /^[0-9]+$/;
+    if (age.value.match(numericExpression)) {
         return true;
     } else {
-        alert("You must enter a whole number for age and zipcode.");
+        evt.preventDefault();
+        alert("You must enter a whole number for age.")
     }
 }
 
-checkIfNum(age);
+myForm.addEventListener('submit', checkSubmit);
 
-function checkZipcodeLength(zipcode) {
-    if (zipcode.length == 5 && zipcode.value.match(numericExression) {
-        return true;
-    } else {
-        alert("Your zipcode must be five digits long.")
-    }
+// function checkZipcodeLength(zipcode) {
+//     if (zipcode.length == 5 && zipcode.value.match(numericExpression)) {
+//         return true;
+//     } else {
+//         alert("Your zipcode must be five digits long.")
+//     }
+// }
 
-checkZipcodeLength(zipcode);
+// checkZipcodeLength(zipcode);
 
 </script>
 

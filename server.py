@@ -48,10 +48,17 @@ def check_user():
     session['email'] = email
     session['password'] = password
 
+    # print User.query.filter_by(email=email).first()
+
     print email
     print password
 
-    if email == User.query.filter_by(email=email).first():
+    reference_email = User.query.filter_by(email=email).first()
+
+    # user_email = reference_email.email
+
+    if reference_email:
+
         return render_template("log_in.html",
                                email=email,
                                password=password)
@@ -108,9 +115,17 @@ def log_in():
 def logged_in():
     """renders the homepage when user is logged in.
     """
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+
     print "Im inside /homepageloggedin"
 
-    return render_template("homepageloggedin.html")
+    flash("You are logged in!")
+
+    return render_template("homepageloggedin.html",
+                           email=email,
+                           password=password)
 
 
 if __name__ == "__main__":
